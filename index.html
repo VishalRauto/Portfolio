@@ -1618,6 +1618,28 @@ footer {
 footer p { color: var(--text2); font-size: 0.9rem; margin-bottom: 0.4rem; }
 
 /* ── RESPONSIVE STYLES ──────────────────────────────────────── */
+/* ── RESPONSIVE: TABLET (max 1024px) ─────────────────────────── */
+@media (max-width: 1024px) {
+  #hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 8rem 2.5rem 4rem;
+    gap: 2rem;
+  }
+  .hero-content { max-width: 100%; }
+  .hero-cta, .hero-stats { justify-content: center; }
+  .hero-visual { flex: unset; width: 100%; }
+  .card-3d { width: 300px; height: 380px; }
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
+  .exp-card { margin-left: 50px; }
+  .projects-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .skills-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .certs-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .sliders-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── RESPONSIVE: MOBILE (max 960px) ──────────────────────────── */
 @media (max-width: 960px) {
   #hero { flex-direction: column; text-align: center; padding: 8rem 2rem 4rem; }
   .hero-cta, .hero-stats { justify-content: center; }
@@ -1626,13 +1648,123 @@ footer p { color: var(--text2); font-size: 0.9rem; margin-bottom: 0.4rem; }
   .exp-card { margin-left: 30px; padding: 1.8rem; }
   .exp-timeline::before { left: 10px; }
   .exp-dot { left: -25px; width: 24px; height: 24px; }
+
+  /* Mobile Hamburger Nav */
   .nav-center { display: none; }
+  .nav-center.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(3, 7, 18, 0.97);
+    backdrop-filter: blur(24px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .nav-center.open a { font-size: 1.5rem; color: var(--text); }
+  .hamburger {
+    display: flex !important;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    border: none;
+    background: transparent;
+    z-index: 300;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .close-menu-btn {
+    display: flex !important;
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 301;
+  }
+
+  /* Project cards full width on mobile */
+  .projects-grid { grid-template-columns: 1fr; }
+  .certs-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .sliders-grid { grid-template-columns: 1fr; }
+  .risk-display { flex-direction: column; gap: 1rem; text-align: center; }
+
+  /* Stats wrap nicely */
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem 1.2rem;
+  }
+  .stat-divider { display: none; }
 }
 
+/* ── RESPONSIVE: SMALL MOBILE (max 640px) ────────────────────── */
 @media (max-width: 640px) {
-  nav { padding: 1rem 1.5rem; }
-  section { padding: 5rem 1.2rem; }
-  .playground-wrapper { padding: 1.5rem; }
+  nav { padding: 1rem 1.2rem; }
+  section { padding: 4.5rem 1rem; }
+  .playground-wrapper { padding: 1.2rem; }
+
+  .hero-title { font-size: clamp(2rem, 8vw, 2.8rem); }
+  .hero-subtitle { font-size: 1rem; justify-content: center; }
+  .hero-desc { font-size: 0.95rem; }
+  .hero-cta { flex-direction: column; align-items: center; gap: 0.8rem; }
+  .hero-cta .btn { width: 100%; max-width: 280px; justify-content: center; }
+
+  .section-title { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+  .section-desc { font-size: 0.9rem; }
+
+  .btn { padding: 0.75rem 1.4rem; font-size: 0.9rem; }
+
+  .exp-card { margin-left: 20px; padding: 1.4rem; }
+  .exp-timeline::before { left: 6px; }
+  .exp-dot { left: -18px; width: 20px; height: 20px; }
+  .exp-header { flex-direction: column; gap: 0.6rem; }
+  .exp-role-title h3 { font-size: 1.15rem; }
+
+  .skills-grid { grid-template-columns: 1fr; }
+  .skill-category { padding: 1.5rem; }
+
+  .project-card { padding: 1.5rem; }
+  .project-header-top { flex-wrap: wrap; gap: 0.6rem; }
+  .project-footer-btns { flex-direction: column; }
+  .project-btn { width: 100%; }
+
+  .cert-card { padding: 1.4rem; }
+
+  .project-filters { gap: 0.5rem; }
+  .filter-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
+
+  .edu-header-flex { flex-direction: column; gap: 0.5rem; }
+  .edu-card { padding: 1.4rem; }
+
+  .playground-nav { flex-wrap: wrap; gap: 0.5rem; }
+  .pg-tab-btn { font-size: 0.85rem; padding: 0.5rem 1rem; }
+  .sample-prompts { gap: 0.4rem; }
+
+  /* Custom cursor off on touch devices */
+  #cursor, #cursor-trail { display: none; }
+  body { cursor: auto; }
+  .btn, .filter-btn, .prompt-chip, .icon-btn, .hamburger { cursor: pointer; }
+
+  /* Nav actions shrink */
+  .nav-actions { gap: 0.5rem; }
+  .icon-btn { width: 34px; height: 34px; font-size: 0.85rem; }
+  .nav-logo-text { font-size: 1.1rem; }
 }
 </style>
 </head>
@@ -1670,6 +1802,9 @@ footer p { color: var(--text2); font-size: 0.9rem; margin-bottom: 0.4rem; }
     <button class="icon-btn" id="audioToggle" title="Toggle Sound FX"><i class="fas fa-volume-up"></i></button>
     <button class="icon-btn" id="terminalToggle" title="Open Interactive CLI"><i class="fas fa-terminal"></i></button>
     <a href="https://github.com/VishalRauto" target="_blank" rel="noopener noreferrer" class="icon-btn" title="GitHub Profile"><i class="fab fa-github"></i></a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" style="display:none;">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -2279,6 +2414,39 @@ footer p { color: var(--text2); font-size: 0.9rem; margin-bottom: 0.4rem; }
 
 <!-- JAVASCRIPT SYSTEM LOGIC -->
 <script>
+// ── MOBILE HAMBURGER MENU ─────────────────────────────────────
+(function() {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const navCenter = document.querySelector('.nav-center');
+
+  function checkBreakpoint() {
+    if (window.innerWidth <= 960) {
+      hamburgerBtn.style.display = 'flex';
+    } else {
+      hamburgerBtn.style.display = 'none';
+      navCenter.classList.remove('open');
+      hamburgerBtn.classList.remove('open');
+    }
+  }
+
+  hamburgerBtn.addEventListener('click', function() {
+    const isOpen = navCenter.classList.toggle('open');
+    hamburgerBtn.classList.toggle('open', isOpen);
+    hamburgerBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  });
+
+  // Close menu when a nav link is clicked
+  navCenter.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navCenter.classList.remove('open');
+      hamburgerBtn.classList.remove('open');
+    });
+  });
+
+  window.addEventListener('resize', checkBreakpoint);
+  checkBreakpoint();
+})();
+
 // ── WEB AUDIO SYNTHESIZER ─────────────────────────────────────
 let audioCtx = null;
 let soundEnabled = true;
