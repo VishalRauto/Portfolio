@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <style>
 :root {
@@ -2943,37 +2944,32 @@ const aboutSec = document.getElementById('about');
 if (aboutSec) observer.observe(aboutSec);
 
 // ── CONTACT FORM HANDLING ─────────────────────────────────────
+emailjs.init('2TBJGK_CFlejgqXz2');
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const btn = document.getElementById('contactSubmitBtn');
   const form = e.target;
 
-  // Show loading state
   btn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
   btn.disabled = true;
 
-  try {
-    const data = new FormData(form);
-    data.append('access_key', '98039d9e-be7f-41a0-9502-3335ba8f7440');
-    const response = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    });
+  const templateParams = {
+    name: form.querySelector('[name="name"]').value,
+    email: form.querySelector('[name="email"]').value,
+    message: form.querySelector('[name="message"]').value
+  };
 
-    if (response.ok) {
-      btn.innerHTML = '<span>Message Sent!</span><i class="fas fa-check"></i>';
-      btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-      showToast('Thank you! Your message has been sent to Vishal.');
-      form.reset();
-      setTimeout(() => {
-        btn.innerHTML = '<span>Send Message</span><i class="fas fa-paper-plane"></i>';
-        btn.style.background = '';
-        btn.disabled = false;
-      }, 3500);
-    } else {
-      throw new Error('Server error');
-    }
+  try {
+    await emailjs.send('service_x8sjjyh', 'template_w23cnm2', templateParams);
+    btn.innerHTML = '<span>Message Sent!</span><i class="fas fa-check"></i>';
+    btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    showToast('Thank you! Your message has been sent to Vishal.');
+    form.reset();
+    setTimeout(() => {
+      btn.innerHTML = '<span>Send Message</span><i class="fas fa-paper-plane"></i>';
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 3500);
   } catch (err) {
     btn.innerHTML = '<span>Failed — Try Again</span><i class="fas fa-exclamation-triangle"></i>';
     btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
