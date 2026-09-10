@@ -2363,10 +2363,10 @@ footer p { color: var(--text2); font-size: 0.9rem; margin-bottom: 0.4rem; }
       </div>
 
       <form class="contact-form" id="contactForm">
-        <div class="form-group"><input type="text" placeholder="Your Name" required/></div>
-        <div class="form-group"><input type="email" placeholder="Your Email" required/></div>
-        <div class="form-group"><textarea placeholder="Your Message" rows="5" required></textarea></div>
-        <button type="submit" class="btn btn-primary" style="width:100%;"><span>Send Message</span><i class="fas fa-paper-plane"></i></button>
+        <div class="form-group"><input type="text" name="name" placeholder="Your Name" required/></div>
+        <div class="form-group"><input type="email" name="email" placeholder="Your Email" required/></div>
+        <div class="form-group"><textarea name="message" placeholder="Your Message" rows="5" required></textarea></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;" id="contactSubmitBtn"><span>Send Message</span><i class="fas fa-paper-plane"></i></button>
       </form>
     </div>
   </div>
@@ -2943,17 +2943,46 @@ const aboutSec = document.getElementById('about');
 if (aboutSec) observer.observe(aboutSec);
 
 // ── CONTACT FORM HANDLING ─────────────────────────────────────
-document.getElementById('contactForm').addEventListener('submit', e => {
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('button');
-  btn.innerHTML = '<span>Message Sent!</span><i class="fas fa-check"></i>';
-  btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-  showToast('Thank you! Your message has been sent successfully.');
-  setTimeout(() => {
-    btn.innerHTML = '<span>Send Message</span><i class="fas fa-paper-plane"></i>';
-    btn.style.background = '';
-    e.target.reset();
-  }, 3500);
+  const btn = document.getElementById('contactSubmitBtn');
+  const form = e.target;
+
+  // Show loading state
+  btn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
+  btn.disabled = true;
+
+  try {
+    const data = new FormData(form);
+    const response = await fetch('https://formspree.io/f/xzzblwyz', {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      btn.innerHTML = '<span>Message Sent!</span><i class="fas fa-check"></i>';
+      btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+      showToast('Thank you! Your message has been sent to Vishal.');
+      form.reset();
+      setTimeout(() => {
+        btn.innerHTML = '<span>Send Message</span><i class="fas fa-paper-plane"></i>';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3500);
+    } else {
+      throw new Error('Server error');
+    }
+  } catch (err) {
+    btn.innerHTML = '<span>Failed — Try Again</span><i class="fas fa-exclamation-triangle"></i>';
+    btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+    showToast('Something went wrong. Email me at vishalrauto2005@gmail.com');
+    setTimeout(() => {
+      btn.innerHTML = '<span>Send Message</span><i class="fas fa-paper-plane"></i>';
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 4000);
+  }
 });
 
 // ── BACK TO TOP BUTTON ────────────────────────────────────────
